@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PECATHON2026AAGP</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=JetBrains+Mono:wght@400;600&family=Space+Grotesk:wght@400;600&display=swap">
+<style>
+:root{--bg:#ece2cc;--card:#f6eedb;--pane:#fbf5e6;--bd:#c4b08a;--tx:#1c1410;--mu:#6b5a47;--cy:#a61b1b;--gr:#2f5d3a;--pk:#8a1c1c;--add:#d6e6c3;--del:#f0c6bc;--kw:#a61b1b;--st:#2f5d3a;--nm:#9a6b12;--cm:#8a7a63;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0908;--card:#15100d;--pane:#0f0b09;--bd:#3d2d25;--tx:#eadfc8;--mu:#9b8c78;--cy:#e0b252;--gr:#8fc07a;--pk:#d7263d;--add:#1c2a17;--del:#3b1212;--kw:#ef5a66;--st:#9ccc7a;--nm:#e0b252;--cm:#7d6f5e}}
+:root[data-theme="dark"]{--bg:#0b0908;--card:#15100d;--pane:#0f0b09;--bd:#3d2d25;--tx:#eadfc8;--mu:#9b8c78;--cy:#e0b252;--gr:#8fc07a;--pk:#d7263d;--add:#1c2a17;--del:#3b1212;--kw:#ef5a66;--st:#9ccc7a;--nm:#e0b252;--cm:#7d6f5e}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:13px/1.5 'JetBrains Mono','Fira Code',Consolas,monospace}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--bd);background:var(--card)}
+h1{margin:0;font-size:16px;letter-spacing:.08em;color:var(--cy)}
+h1 small{display:block;font-size:10px;color:var(--mu);letter-spacing:.1em;font-weight:400}
+button{font:inherit;font-size:12px;cursor:pointer;color:var(--tx);background:var(--pane);border:1px solid var(--bd);border-radius:8px;padding:6px 10px}
+button:hover{border-color:var(--cy)}button:disabled{opacity:.4;cursor:not-allowed}
+.pri{color:var(--gr);border-color:var(--gr)}.cy{color:var(--cy);border-color:var(--cy)}
+main{max-width:1280px;margin:0 auto;padding:14px;display:grid;gap:14px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden}
+#drop{border:2px dashed var(--bd);border-radius:12px;padding:18px;text-align:center;cursor:pointer;color:var(--mu)}
+#drop.over,#drop:hover{border-color:var(--cy);color:var(--cy)}
+.ws{display:grid;grid-template-columns:230px 1fr;min-height:560px}
+@media(max-width:800px){.ws{grid-template-columns:1fr}}
+#tree{border-right:1px solid var(--bd);padding:8px;overflow:auto;max-height:560px}
+.f{padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--mu);display:flex;justify-content:space-between;gap:6px}
+.f.on{background:var(--pane);color:var(--cy);border:1px solid var(--cy)}
+.bar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--bd)}
+.bar .sp{flex:1}
+.panes{display:grid;grid-template-columns:1fr 1fr;height:420px}
+@media(max-width:800px){.panes{grid-template-columns:1fr;height:auto}}
+.pn{display:flex;flex-direction:column;min-width:0;border-right:1px solid var(--bd)}
+.pn:last-child{border-right:0}
+.pn>b{padding:5px 10px;font-size:10px;letter-spacing:.1em;color:var(--mu);border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;text-transform:uppercase}
+.code{flex:1;overflow:auto;background:var(--pane);padding:6px 0;max-height:400px}
+.ln{display:flex;white-space:pre;padding:0 8px}.ln i{width:34px;flex:none;text-align:right;padding-right:10px;color:var(--mu);font-style:normal;user-select:none}
+.ln.a{background:var(--add)}.ln.d{background:var(--del);opacity:.8}
+.kw{color:var(--kw);font-weight:700}.st{color:var(--st)}.nm{color:var(--nm)}.cm{color:var(--cm);font-style:italic}
+.in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--bd);flex-wrap:wrap}
+.in input{flex:1;min-width:200px;background:var(--pane);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;font:inherit}
+.in input:focus{outline:0;border-color:var(--cy)}
+pre{margin:0;padding:12px;max-height:300px;overflow:auto;background:var(--pane);color:var(--gr)}
+.empty{padding:30px;text-align:center;color:var(--mu)}
+#toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--card);border:1px solid var(--cy);color:var(--tx);padding:8px 14px;border-radius:8px;display:none;z-index:9;max-width:90%}
+
+body{font-family:'Shippori Mincho','Noto Serif JP',Georgia,serif;font-size:14px;background-image:radial-gradient(circle at 50% -15%,rgba(166,27,27,.16),transparent 55%),radial-gradient(circle at 100% 100%,transparent 22%,rgba(120,90,50,.07) 23%,rgba(120,90,50,.07) 27%,transparent 28%);background-size:100% 100%,44px 22px;background-attachment:fixed}
+.code,pre,.ln,.in input,#prompt{font-family:'JetBrains Mono',Consolas,monospace;font-size:12px}
+header{border-bottom:3px solid var(--pk);box-shadow:0 1px 0 var(--cy)}
+h1{font-size:19px;letter-spacing:.14em;display:flex;flex-wrap:wrap;align-items:center;gap:10px;color:var(--tx)}
+h1 small{flex-basis:100%;margin-left:0;letter-spacing:.06em;font-style:italic}
+.seal{display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;background:var(--pk);color:#fff;font-size:21px;border-radius:3px;transform:rotate(-4deg);box-shadow:0 0 0 2px var(--card),0 0 0 3px var(--pk)}
+button,.in input,.card,#drop,.f,#toast{border-radius:2px!important}
+button{font-family:inherit;font-weight:700;letter-spacing:.03em}
+button.pri,button.cy{background:transparent}
+button.pri:hover,button.cy:hover{background:var(--pk);border-color:var(--pk);color:#fff}
+.card{border-top:3px solid var(--pk)}
+.pn>b,.bar b{letter-spacing:.14em}
+#drop{border-style:solid;border-width:1px 1px 1px 5px;border-left-color:var(--pk);text-align:left;padding:16px 20px}
+#drop b{color:var(--tx)}
+.f.on{border-left:4px solid var(--pk);color:var(--tx)}
+
+header,main{position:relative;z-index:1}
+.skins{display:flex;gap:4px;flex-wrap:wrap}
+.sk.on{background:var(--cy)!important;color:var(--bg)!important;border-color:var(--cy)!important}
+/* ===== ABYSS: bioluminescent deep sea ===== */
+html:root[data-skin="abyss"]{--bg:#020b14;--card:rgba(6,24,42,.82);--pane:#041220;--bd:#0e3a4f;--tx:#d4f6ff;--mu:#6fa3b5;--cy:#2cf3d3;--gr:#b6ff3b;--pk:#ff4fd8;--add:#06331f;--del:#3a0f33;--kw:#ff6ee0;--st:#b6ff3b;--nm:#ffd166;--cm:#4d7f93;color-scheme:dark}
+html:root[data-skin="abyss"] body{font-family:'Space Grotesk','Segoe UI',sans-serif;background:radial-gradient(ellipse at 50% 0%,#0b5568 0%,#031a2b 42%,#020b14 100%) fixed}
+html:root[data-skin="abyss"] body::before,html:root[data-skin="abyss"] body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.6}
+html:root[data-skin="abyss"] body::before{background-image:radial-gradient(circle at 10% 90%,rgba(44,243,211,.55) 0 3px,transparent 4px),radial-gradient(circle at 34% 60%,rgba(255,79,216,.45) 0 2px,transparent 3px),radial-gradient(circle at 58% 95%,rgba(182,255,59,.45) 0 4px,transparent 5px),radial-gradient(circle at 84% 75%,rgba(44,243,211,.45) 0 2px,transparent 3px);background-size:360px 420px;animation:rise 22s linear infinite}
+html:root[data-skin="abyss"] body::after{background-image:radial-gradient(circle at 22% 40%,rgba(255,79,216,.4) 0 5px,transparent 6px),radial-gradient(circle at 70% 20%,rgba(44,243,211,.4) 0 3px,transparent 4px),radial-gradient(circle at 92% 85%,rgba(182,255,59,.4) 0 2px,transparent 3px);background-size:540px 610px;animation:rise 36s linear infinite}
+@keyframes rise{from{background-position:0 0}to{background-position:0 -610px}}
+@keyframes tide{0%{background-position:0 0}100%{background-position:200% 0}}
+@keyframes pulse{0%,100%{box-shadow:0 0 10px var(--cy),0 0 22px rgba(44,243,211,.4)}50%{box-shadow:0 0 18px var(--pk),0 0 34px rgba(255,79,216,.45)}}
+html:root[data-skin="abyss"] header{background:linear-gradient(90deg,#06182a,#0a3f4f,#2a0f3a,#0a3f4f,#06182a);background-size:200% 100%;animation:tide 14s linear infinite;border-bottom:1px solid var(--cy);box-shadow:0 4px 26px rgba(44,243,211,.18)}
+html:root[data-skin="abyss"] h1{text-shadow:0 0 14px rgba(44,243,211,.7);color:var(--cy);letter-spacing:.1em}
+html:root[data-skin="abyss"] h1 small{color:var(--mu);text-shadow:none}
+html:root[data-skin="abyss"] .seal{font-size:0;width:30px;height:30px;border-radius:50%!important;transform:none;background:radial-gradient(circle at 35% 30%,#fff 0,var(--cy) 30%,#0a7a8a 70%);box-shadow:none;animation:pulse 3.5s ease-in-out infinite}
+html:root[data-skin="abyss"] .card{background:var(--card);backdrop-filter:blur(8px);border-top:1px solid var(--cy);box-shadow:0 0 30px rgba(44,243,211,.08)}
+html:root[data-skin="abyss"] button,html:root[data-skin="abyss"] .in input,html:root[data-skin="abyss"] .card,html:root[data-skin="abyss"] #drop,html:root[data-skin="abyss"] .f,html:root[data-skin="abyss"] #toast{border-radius:14px!important}
+html:root[data-skin="abyss"] button:hover{box-shadow:0 0 14px var(--cy);color:var(--bg);background:var(--cy);border-color:var(--cy)}
+html:root[data-skin="abyss"] button.pri:hover{background:var(--gr);border-color:var(--gr);box-shadow:0 0 14px var(--gr)}
+html:root[data-skin="abyss"] #drop{border-style:dashed;border-width:2px;border-left-color:var(--bd);text-align:center;background:rgba(4,18,32,.6)}
+html:root[data-skin="abyss"] #drop:hover,html:root[data-skin="abyss"] #drop.over{box-shadow:0 0 26px rgba(44,243,211,.3)}
+html:root[data-skin="abyss"] .f.on{border-left-color:var(--pk);box-shadow:0 0 14px rgba(255,79,216,.25)}
+html:root[data-skin="abyss"] pre,html:root[data-skin="abyss"] .code{text-shadow:0 0 6px rgba(182,255,59,.25)}
+html:root[data-skin="abyss"] .ln.a{box-shadow:inset 3px 0 0 var(--gr)}html:root[data-skin="abyss"] .ln.d{box-shadow:inset 3px 0 0 var(--pk)}
+@media (prefers-reduced-motion:reduce){html:root[data-skin="abyss"] body::before,html:root[data-skin="abyss"] body::after,html:root[data-skin="abyss"] header,html:root[data-skin="abyss"] .seal{animation:none}}
+/* ===== NEON: cyber grid ===== */
+html:root[data-skin="cyber"]{--bg:#030712;--card:#0f172a;--pane:#080d1a;--bd:#1e293b;--tx:#f3f4f6;--mu:#94a3b8;--cy:#00f3ff;--gr:#00ff66;--pk:#ff007f;--add:#053b22;--del:#4a0a2b;--kw:#ff007f;--st:#00ff66;--nm:#facc15;--cm:#64748b;color-scheme:dark}
+html:root[data-skin="cyber"] body{font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;background:#030712;background-image:linear-gradient(rgba(0,243,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,243,255,.06) 1px,transparent 1px),radial-gradient(circle at 50% 0,rgba(0,243,255,.12),transparent 55%);background-size:24px 24px,24px 24px,100% 100%;background-attachment:fixed}
+html:root[data-skin="cyber"] body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;background:repeating-linear-gradient(transparent 0 2px,rgba(0,0,0,.22) 2px 4px);opacity:.35}
+html:root[data-skin="cyber"] header{border-bottom:1px solid var(--cy);box-shadow:0 0 22px rgba(0,243,255,.25)}
+html:root[data-skin="cyber"] h1{color:var(--cy);text-shadow:0 0 12px rgba(0,243,255,.7);letter-spacing:.12em}
+html:root[data-skin="cyber"] .seal{font-size:0;background:var(--cy);transform:none;border-radius:6px!important;box-shadow:0 0 16px var(--cy)}
+html:root[data-skin="cyber"] .seal::after{content:"</>";font-size:12px;font-weight:800;color:#000}
+html:root[data-skin="cyber"] .card{border-top:1px solid var(--cy);box-shadow:0 0 22px rgba(0,243,255,.1)}
+html:root[data-skin="cyber"] button,html:root[data-skin="cyber"] .in input,html:root[data-skin="cyber"] .card,html:root[data-skin="cyber"] #drop,html:root[data-skin="cyber"] .f,html:root[data-skin="cyber"] #toast{border-radius:6px!important}
+html:root[data-skin="cyber"] button:hover{background:var(--cy);color:#000;border-color:var(--cy);box-shadow:0 0 14px var(--cy)}
+html:root[data-skin="cyber"] button.pri:hover{background:var(--gr);border-color:var(--gr);box-shadow:0 0 14px var(--gr)}
+html:root[data-skin="cyber"] #drop{border-left-color:var(--cy)}
+html:root[data-skin="cyber"] .f.on{border-left-color:var(--pk)}
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="seal">侍</span><span>PECATHON2026AAGP</span><small>Upload your code · name the change · receive the refined file</small></h1>
+  <div style="display:flex;gap:6px;flex-wrap:wrap">
+    <span class="skins"><button class="sk" data-skin="samurai" onclick="setSkin('samurai')">侍 Samurai</button><button class="sk" data-skin="abyss" onclick="setSkin('abyss')">◍ Abyss</button><button class="sk" data-skin="cyber" onclick="setSkin('cyber')">&lt;/&gt; Neon</button></span>
+    <button class="cy" onclick="demo()">Load sample files</button>
+    <button onclick="copyAll()">Copy all files</button>
+  </div>
+</header>
+<main>
+  <div id="drop" onclick="$('up').click()">
+    <input type="file" id="up" multiple hidden accept=".py,.js,.jsx,.ts,.tsx,.cpp,.c,.h,.java,.cs,.html,.css,.json,.go,.rs">
+    <b>Click to select code files, or drop them here</b><br><small>.py .js .ts .cpp .java .cs .html .css .json .go .rs (max 500 KB each)</small>
+  </div>
+
+  <div class="card" style="padding:12px">
+    <div style="font-size:10px;letter-spacing:.14em;color:var(--mu);margin-bottom:6px">MODE 02 // GITHUB REPOSITORY</div>
+    <div class="in" style="border:0;padding:0">
+      <input id="repo" placeholder="https://github.com/owner/repo  (or owner/repo)" onkeydown="if(event.key==='Enter')fetchRepo()">
+      <button class="cy" id="gb" onclick="fetchRepo()">Fetch repo</button>
+    </div>
+    <small id="ghmsg" style="color:var(--mu)">Loads up to 20 code files. Pick any file, then ask the AI to change it.</small>
+  </div>
+
+  <div class="card ws">
+    <div id="tree"></div>
+    <div style="min-width:0;display:flex;flex-direction:column">
+      <div class="bar">
+        <b id="title" style="color:var(--cy)">No file selected</b><span class="sp"></span>
+        <button id="vs" class="cy" onclick="setView('side')">Side-by-side</button>
+        <button id="vd" onclick="setView('diff')">Diff</button>
+        <button id="apply" class="pri" onclick="apply()" disabled>Apply to file</button>
+      </div>
+      <div class="bar" style="font-size:11px">
+        <span style="color:var(--mu)">QUICK:</span>
+        <button onclick="quick('Find and fix bugs, security vulnerabilities and logic errors. Return the full corrected file.')">Fix bugs &amp; security</button>
+        <button onclick="quick('Add a complete Django authentication and login view with error handling.')">Add Django login</button>
+        <button onclick="quick('Refactor for optimal time and space complexity and clean naming.')">Optimize</button>
+        <button onclick="quick('Add type hints, docstrings and clear comments to every function.')">Docs &amp; types</button>
+        <button onclick="quick('Write a complete unit test suite for everything in this file.')">Unit tests</button>
+      </div>
+      <div id="side" class="panes">
+        <div class="pn"><b><span>Current code</span><span id="oc"></span></b><div id="orig" class="code"><div class="empty">Upload or load a file to begin.</div></div></div>
+        <div class="pn"><b><span>AI transformed</span><span id="st">Awaiting prompt</span></b><div id="ai" class="code"><div class="empty">Write an instruction below.</div></div></div>
+      </div>
+      <div id="dview" class="code" style="display:none;height:420px"></div>
+      <div class="in">
+        <input id="prompt" placeholder="e.g. Add input validation, convert to C++, fix the memory leak" onkeydown="if(event.key==='Enter')go()">
+        <button class="pri" id="go" onclick="go()">Transform with AI</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="bar"><b>Transformed output</b><span id="meta" style="color:var(--mu)"></span><span class="sp"></span>
+      <button id="cp" onclick="copyOut()" disabled>Copy</button>
+      <button id="dl" class="cy" onclick="dlOut()" disabled>Download</button></div>
+    <pre id="out">Output appears here after a transformation.</pre>
+  </div>
+</main>
+<div id="toast"></div>
+
+<script>
+const S={files:[],i:0,sample:null,diff:false};
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function toast(m){const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>t.style.display='none',2600)}
+function hl(l){let e=esc(l);if(/^\s*(#|\/\/)/.test(e))return '<span class="cm">'+e+'</span>';
+ return e.replace(/(["'])(?:\\.|(?!\1).)*\1/g,m=>'<span class="st">'+m+'</span>')
+  .replace(/\b(def|class|function|return|if|elif|else|for|while|import|from|public|private|void|int|bool|const|let|var|using|namespace|try|except|catch|async|await)\b(?![^<]*>)/g,'<span class="kw">$1</span>')}
+function rows(el,text,cls){el.innerHTML=text.split('\n').map((l,n)=>'<div class="ln '+(cls||'')+'"><i>'+(n+1)+'</i><span>'+hl(l)+'</span></div>').join('')}
+async function addFiles(list){
+ const fd=new FormData();[...list].forEach(f=>fd.append('files',f));
+ try{const res=await fetch('/api/upload',{method:'POST',body:fd});const d=await res.json();
+  if(!res.ok)throw new Error(d.error||'Upload failed');
+  if(!d.files.length)return toast('No supported code files found');
+  const r=d.files.map(f=>({name:f.name,content:f.content,ai:''}));
+  S.i=S.files.length;S.files=S.files.concat(r);render();toast(r.length+' file(s) loaded'+(d.skipped.length?', skipped '+d.skipped.length:''));
+ }catch(e){toast('Upload error: '+e.message)}
+}
+$('up').onchange=e=>addFiles(e.target.files);
+const dz=$('drop');
+dz.ondragover=e=>{e.preventDefault();dz.classList.add('over')};
+dz.ondragleave=()=>dz.classList.remove('over');
+dz.ondrop=e=>{e.preventDefault();dz.classList.remove('over');addFiles(e.dataTransfer.files)};
+function demo(){S.files=[
+ {name:'views.py',content:"from django.http import JsonResponse\nfrom django.views import View\n\nclass UserDataView(View):\n    def get(self, request):\n        # Vulnerable demo endpoint\n        user_id = request.GET.get('id')\n        data = {\"user_id\": user_id, \"status\": \"active\"}\n        return JsonResponse(data)",ai:''},
+ {name:'matrix.cpp',content:"#include <iostream>\n#include <vector>\n\nvoid computeMatrix() {\n    std::vector<int> data = {1, 2, 3, 4};\n    for (int n : data) {\n        std::cout << n << \"\\n\";\n    }\n}",ai:''}];S.i=0;render()}
+async function fetchRepo(){
+ const v=$('repo').value.trim();if(!v)return toast('Paste a GitHub repo link');
+ const b=$('gb');b.disabled=true;$('ghmsg').textContent='Fetching repository…';
+ try{
+  const res=await fetch('/api/github',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url:v})});
+  const d=await res.json();if(!res.ok)throw new Error(d.error||'Fetch failed');
+  S.files=d.files.map(f=>({name:f.name,path:f.path,content:f.content,ai:''}));S.i=0;render();
+  $('ghmsg').textContent=d.repo+' @ '+d.branch+': loaded '+d.files.length+' of '+d.total+' code files';
+  toast('Repository loaded');
+ }catch(e){$('ghmsg').textContent='Could not load the repository.';toast('GitHub error: '+e.message)}
+ b.disabled=false;
+}
+function sel(i){S.i=i;render()}
+function render(){
+ $('tree').innerHTML=S.files.length?S.files.map((f,i)=>'<div class="f '+(i===S.i?'on':'')+'" onclick="sel('+i+')"><span>'+esc(f.path||f.name)+'</span><span>'+f.content.split('\n').length+'L</span></div>').join(''):'<div class="empty">No files yet</div>';
+ const f=S.files[S.i];if(!f)return;
+ $('title').textContent=f.path||f.name;$('oc').textContent=f.content.split('\n').length+' lines';
+ rows($('orig'),f.content);
+ if(f.ai){rows($('ai'),f.ai);$('st').textContent='Ready'}else{$('ai').innerHTML='<div class="empty">Write an instruction below.</div>';$('st').textContent='Awaiting prompt'}
+ ['apply','cp','dl'].forEach(id=>$(id).disabled=!f.ai);
+ $('out').textContent=f.ai||'Output appears here after a transformation.';
+ $('meta').textContent=f.ai?f.ai.split('\n').length+' lines · '+(new Blob([f.ai]).size/1024).toFixed(1)+' KB':'';
+ if(S.diff)renderDiff();
+}
+function setView(m){S.diff=m==='diff';$('side').style.display=S.diff?'none':'';$('dview').style.display=S.diff?'':'none';
+ $('vs').className=S.diff?'':'cy';$('vd').className=S.diff?'cy':'';if(S.diff)renderDiff()}
+function renderDiff(){
+ const f=S.files[S.i],box=$('dview');
+ if(!f||!f.ai){box.innerHTML='<div class="empty">Generate a transformation to see the diff.</div>';return}
+ const a=f.content.split('\n'),b=f.ai.split('\n'),n=a.length,m=b.length;let h='';
+ if(n*m>6e6){box.innerHTML='<div class="empty">File too large for diff view.</div>';return}
+ const d=Array.from({length:n+1},()=>new Uint16Array(m+1));
+ for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)d[i][j]=a[i]===b[j]?d[i+1][j+1]+1:Math.max(d[i+1][j],d[i][j+1]);
+ let i=0,j=0;const r=(c,s,t)=>'<div class="ln '+c+'"><i>'+s+'</i><span>'+hl(t)+'</span></div>';
+ while(i<n||j<m){
+  if(i<n&&j<m&&a[i]===b[j]){h+=r('',' ',a[i]);i++;j++}
+  else if(j<m&&(i>=n||d[i][j+1]>=d[i+1][j])){h+=r('a','+',b[j]);j++}
+  else{h+=r('d','-',a[i]);i++}
+ }
+ box.innerHTML=h;
+}
+async function run(ins){
+ const f=S.files[S.i];if(!f)return toast('Upload a file first');
+ const b=$('go');b.disabled=true;$('st').textContent='Transforming…';
+ try{
+  const res=await fetch('/api/transform',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({filename:f.name,code:f.content,instruction:ins})});
+  const d=await res.json();if(!res.ok)throw new Error(d.error||'HTTP '+res.status);
+  f.ai=d.code;render();toast('Transformation complete');
+ }catch(e){$('st').textContent='Failed';toast('Error: '+e.message)}
+ b.disabled=false;
+}
+function go(){const v=$('prompt').value.trim();if(!v)return toast('Type an instruction first');run(v)}
+function quick(t){$('prompt').value=t;run(t)}
+function apply(){const f=S.files[S.i];if(!f||!f.ai)return;f.content=f.ai;f.ai='';render();toast('Applied. You can ask follow-up changes now.')}
+async function copy(t){try{await navigator.clipboard.writeText(t);toast('Copied')}catch(e){const x=document.createElement('textarea');x.value=t;document.body.appendChild(x);x.select();try{document.execCommand('copy');toast('Copied')}catch(_){toast('Copy blocked. Select the text manually.')}x.remove()}}
+function copyOut(){const f=S.files[S.i];if(f&&f.ai)copy(f.ai)}
+function copyAll(){if(!S.files.length)return toast('No files loaded');copy(S.files.map((f,i)=>'// ===== FILE '+(i+1)+': '+(f.path||f.name)+' =====\n'+(f.ai||f.content)).join('\n\n'))}
+function dlOut(){const f=S.files[S.i];if(!f||!f.ai)return;const u=URL.createObjectURL(new Blob([f.ai],{type:'text/plain'}));const a=document.createElement('a');a.href=u;a.download='transformed_'+f.name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(u)}
+const SKINS=['samurai','abyss','cyber'];
+function setSkin(k){if(!SKINS.includes(k))k='samurai';document.documentElement.dataset.skin=k;try{localStorage.setItem('skin',k)}catch(e){}document.querySelectorAll('.sk').forEach(b=>b.classList.toggle('on',b.dataset.skin===k))}
+let k0='samurai';try{k0=localStorage.getItem('skin')||'samurai'}catch(e){}
+setSkin(k0);
+demo();
+</script>
+</body>
+</html>
